@@ -18,6 +18,8 @@ app = Flask(__name__)
 def chatbot():
     user_input = request.json["text"]
     lang = request.json["languge"]
+    print(user_input)
+    print(lang)
     if(lang=='en'):
         response = ask_agriculture_expert_En(user_input)
         return {"response": response}
@@ -27,6 +29,8 @@ def chatbot():
     if(lang=='ar'):
         response = demander_expert_agriculture_AR(user_input)
         return {"response": response}
+    else:
+        return {"response": "sorry no network"}
 
 
 

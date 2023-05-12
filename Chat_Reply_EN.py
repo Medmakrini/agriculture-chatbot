@@ -47,6 +47,7 @@ def ask_agriculture_expert_En(q):
 
     return answer
 
+#print(ask_agriculture_expert_En('gi'))
 #EN version Audio
  
 def recognize_audio_En(base64_audio, language='en-US'):
