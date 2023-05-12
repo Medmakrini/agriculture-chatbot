@@ -20,12 +20,14 @@ def chatbot():
     lang = request.json["languge"]
     if(lang=='en'):
         response = ask_agriculture_expert_En(user_input)
+        return {"response": response}
     if(lang=='fr'):
         response = demander_expert_agriculture_Fr(user_input)
+        return {"response": response}
     if(lang=='ar'):
         response = demander_expert_agriculture_AR(user_input)
+        return {"response": response}
 
-    return {"response": response}
 
 
 
@@ -40,12 +42,14 @@ def chatbotPred():
 
     if(lang=='en'):
         response = Predict_Plant_En(temperature, humidity, ph, rainfall)
+        return {"Predection": response}
     if(lang=='fr'):
         response = Predire_Plante_Fr(temperature, humidity, ph, rainfall)
+        return {"Predection": response}
     if(lang=='ar'):
         response = Predire_Plante_AR(temperature, humidity, ph, rainfall)
+        return {"Predection": response}
 
-    return {"Predection": response}
 
 # Define endpoint for chatbotAud
 @app.route("/chatbotAudio", methods=["POST","GET"])
@@ -56,15 +60,15 @@ def chatbotAudio():
     if(lang=='en'):
         text = recognize_audio_En(audio_base64)
         response = ask_agriculture_expert_En(text)
-
+        return {"response": response}
     if(lang=='fr'):
         text = reconnaitre_audio_Fr(audio_base64)
         response = demander_expert_agriculture_Fr(text)
+        return {"response": response}
     if(lang=='ar'):
         text = reconnaitre_audio_AR(audio_base64)
         response = demander_expert_agriculture_AR(text)
-
-    return {"response": response}
+        return {"response": response}
 
 
 
