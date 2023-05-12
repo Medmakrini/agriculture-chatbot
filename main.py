@@ -62,16 +62,17 @@ def chatbotAudio():
     audio_base64 = request.json['string']
 
     if(lang=='en'):
-        text = recognize_audio_En(audio_base64)
-        response = ask_agriculture_expert_En(text)
+        response = recognize_audio_En(audio_base64)
+        print("text recooo===>",response)
+        #response = ask_agriculture_expert_En(text)
         return {"response": response}
     if(lang=='fr'):
-        text = reconnaitre_audio_Fr(audio_base64)
-        response = demander_expert_agriculture_Fr(text)
+        response = reconnaitre_audio_Fr(audio_base64)
+        #response = demander_expert_agriculture_Fr(response)
         return {"response": response}
     if(lang=='ar'):
-        text = reconnaitre_audio_AR(audio_base64)
-        response = demander_expert_agriculture_AR(text)
+        response = reconnaitre_audio_AR(audio_base64)
+        #response = demander_expert_agriculture_AR(response)
         return {"response": response}
 
 
