@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 
 # Define endpoint for chatbot
-@app.route("/chatbot", methods=["POST"])
+@app.route("/chatbot", methods=["POST","GET"])
 def chatbot():
     user_input = request.json["text"]
     lang = request.json["languge"]
@@ -25,12 +25,12 @@ def chatbot():
     if(lang=='ar'):
         response = demander_expert_agriculture_AR(user_input)
 
-    return {"response": response}
+    return {"response": "response"}
 
 
 
 # Define endpoint for chatbotPred
-@app.route("/chatbotPred", methods=["POST"])
+@app.route("/chatbotPred", methods=["POST","GET"])
 def chatbotPred():
     lang = request.json["languge"]
     temperature = request.json["temperature"]
@@ -48,7 +48,7 @@ def chatbotPred():
     return {"Predection": response}
 
 # Define endpoint for chatbotAud
-@app.route("/chatbotAudio", methods=["POST"])
+@app.route("/chatbotAudio", methods=["POST","GET"])
 def chatbotAudio():
     lang = request.json["languge"]
     audio_base64 = request.json['string']
@@ -105,7 +105,8 @@ def image():
         os.remove('imageToSave.png')
         return True
 
-    
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=os.getenv("PORT", default=5000))

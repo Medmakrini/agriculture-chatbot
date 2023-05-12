@@ -80,7 +80,4 @@ Werkzeug==2.2.2
 wrapt==1.14.1
 yapf==0.32.0
 gunicorn==20.0.4
-pandas==1.4.2
-matplotlib==3.5.2
-plotly==5.9.0
 openai[embeddings]
