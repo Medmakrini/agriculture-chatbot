@@ -25,7 +25,7 @@ def chatbot():
     if(lang=='ar'):
         response = demander_expert_agriculture_AR(user_input)
 
-    return {"response": "response"}
+    return {"response": response}
 
 
 
