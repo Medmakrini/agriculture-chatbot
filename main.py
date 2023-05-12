@@ -7,6 +7,8 @@ from tensorflow import keras
 import numpy as np
 import cv2 
 import os
+from os import path
+
 model =keras.models.load_model('MN_TL.h5')
 
 # Initialize Flask app
@@ -55,12 +57,24 @@ def chatbotPred():
         return {"Predection": response}
 
 
+def decode_base64_string(encoded_string):
+        audio_path = path.join(path.dirname(path.realpath(__file__)) ,'last.3gp' )
+        audio_file = open(audio_path, "wb")
+        decode_string = base64.b64decode(encoded_string)
+        audio_file.write(decode_string)
+        wav_path = path.join(path.dirname(path.realpath(__file__)) ,'last.wav' )
+        cmd ='ffmpeg -i '+ 'last.3gp' + ' -f wav -acodec pcm_s16le -ar 22050 -ac 1 ' + wav_path
+        os.system(cmd)
+        return wav_path
+
+
+
 # Define endpoint for chatbotAud
 @app.route("/chatbotAudio", methods=["POST","GET"])
 def chatbotAudio():
     lang = request.json["languge"]
-    audio_base64 = request.json['string']
-
+    audio = request.json['string']
+    audio_base64 =decode_base64_string(audio)
     if(lang=='en'):
         response = recognize_audio_En(audio_base64)
         print("text recooo===>",response)

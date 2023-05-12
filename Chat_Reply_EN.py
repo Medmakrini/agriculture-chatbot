@@ -5,7 +5,8 @@ import os
 import base64
 from os import path
 import tempfile
-
+import pydub
+from os import path
 openai.api_key = "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"
 
 #EN version Predect Plant
@@ -50,79 +51,37 @@ def ask_agriculture_expert_En(q):
 #print(ask_agriculture_expert_En('gi'))
 #EN version Audio
  
-def recognize_audio_En(base64_audio, language='en-US'):
-    r = sr.Recognizer()
-    # Decode base64 audio data
-    audio_data = base64.b64decode(base64_audio)
-    
-    # Save audio data as a temporary WAV file
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        f.write(audio_data)
-        audio_file = f.name
-    
-    # Perform speech recognition on the audio file
-    with sr.AudioFile(audio_file) as source:
-        audio = r.record(source)
-        try:
-            text = r.recognize_google(audio, language=language)
-        except sr.UnknownValueError:
-            text = ''
-    os.unlink(audio_file) # Delete the temporary WAV file
-    
-    return text
+# def recognize_audio_En(base64_audio, language='en-US'):
+#     # Decode base64 audio data
+#     r = sr.Recognizer()
+#     audio_data = base64.b64decode(base64_audio)
+
+#     # Convert audio data to WAV format
+#     audio = pydub.AudioSegment.from_raw(audio_data)
+#     audio.export("audio.wav", format="wav")
+
+#     # Perform speech recognition on the audio file
+#     with sr.AudioFile("audio.wav") as source:
+#         audio = r.record(source)
+#         try:
+#             text = r.recognize_google(audio, language=language)
+#         except sr.UnknownValueError:
+#             text = ''
+#     os.unlink("audio.wav") # Delete the temporary WAV file
+
+#     return text
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#EN version agriculture expert
-# def ask_agriculture_expert_En(question):
-#     prompt = f"Your name is Aggie. You are an agricultural specialist, your task is to provide concise and accurate answers related only to agriculture ,farming , math or calculation ,if the question is about something else apologies and you must not answer, this is your Question:{question}\nAnswer: "
-#     response = openai.Completion.create(
-#         engine="text-davinci-003",
-#         prompt=prompt,
-#         max_tokens=200,
-#         n=1,
-#         stop=None,
-#         temperature=0.7,
-#         presence_penalty=0.6,
-#         frequency_penalty=0.6
-#     )
-
-#     answer = response.choices[0].text.strip()
-#     if not answer:
-#         answer = "I'm sorry, I don't know the answer to that. Can I help you with anything else?"
-
-#     return answer
-
-
-
-
-
-
+def recognize_audio_En( wav_path):
+      
+        r = sr.Recognizer()
+        with sr.WavFile(wav_path) as source:  # use "test.wav" as the audio source
+            audio = r.record(source)  # extract audio data from the file
+            try:
+                text = r.recognize_google(audio, language='en-IN')  # generate a list of possible transcription#
+            except sr.UnknownValueError:
+                 return 'Voice not clear'
+            except r.RequestError:
+                 return "Sorry, I didn't quite understand, please try again!"
+             
+            return text
