@@ -67,6 +67,7 @@ def decode_base64_string(encoded_string):
     audio_file.write(decode_string)
     wav_path = path.join(path.dirname(path.realpath(__file__)), 'last.wav')
     ffmpeg_path = shutil.which('ffmpeg')
+    print(ffmpeg_path)
     ffmpeg.input(audio_path).output(wav_path, format='wav', ffmpeg_executable=ffmpeg_path).run()
     print(wav_path)
     return wav_path
