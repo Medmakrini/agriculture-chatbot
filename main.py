@@ -9,8 +9,8 @@ import cv2
 import os
 from os import path
 import ffmpeg
-import shutil
-
+import base64
+import subprocess
 
 model =keras.models.load_model('MN_TL.h5')
 
@@ -60,17 +60,25 @@ def chatbotPred():
         return {"Predection": response}
 
 
+
+
 def decode_base64_string(encoded_string):
-    audio_path = path.join(path.dirname(path.realpath(__file__)), 'last.3gp')
-    audio_file = open(audio_path, "wb")
-    decode_string = base64.b64decode(encoded_string)
-    audio_file.write(decode_string)
-    wav_path = path.join(path.dirname(path.realpath(__file__)), 'last.wav')
-    ffmpeg_path = shutil.which('ffmpeg')
-    print(ffmpeg_path)
-    ffmpeg.input(audio_path).output(wav_path, format='wav', ffmpeg_executable=ffmpeg_path).run()
+    current_dir = path.dirname(path.realpath(__file__))
+
+    audio_path = path.join(current_dir, 'last.3gp')
+    wav_path = path.join(current_dir, 'last.wav')
+
+    # Decode the base64 string and write it to the 3GP file
+    with open(audio_path, 'wb') as audio_file:
+        decode_string = base64.b64decode(encoded_string)
+        audio_file.write(decode_string)
+
+    # Convert the 3GP file to WAV using FFmpeg
+    cmd = ['ffmpeg', '-i', audio_path, '-f', 'wav', '-acodec', 'pcm_s16le', '-ar', '22050', '-ac', '1', wav_path]
+    subprocess.run(cmd, check=True)  # Run the FFmpeg command
     print(wav_path)
     return wav_path
+
 
 
 # Define endpoint for chatbotAud
