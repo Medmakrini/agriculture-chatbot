@@ -9,6 +9,9 @@ import cv2
 import os
 from os import path
 import ffmpeg
+import shutil
+
+
 model =keras.models.load_model('MN_TL.h5')
 
 # Initialize Flask app
@@ -58,14 +61,15 @@ def chatbotPred():
 
 
 def decode_base64_string(encoded_string):
-        audio_path = path.join(path.dirname(path.realpath(__file__)) ,'last.3gp' )
-        audio_file = open(audio_path, "wb")
-        decode_string = base64.b64decode(encoded_string)
-        audio_file.write(decode_string)
-        wav_path = path.join(path.dirname(path.realpath(__file__)) ,'last.wav' )
-        ffmpeg.input(audio_path).output(wav_path, format='wav').run()
-        return wav_path
-
+    audio_path = path.join(path.dirname(path.realpath(__file__)), 'last.3gp')
+    audio_file = open(audio_path, "wb")
+    decode_string = base64.b64decode(encoded_string)
+    audio_file.write(decode_string)
+    wav_path = path.join(path.dirname(path.realpath(__file__)), 'last.wav')
+    ffmpeg_path = shutil.which('ffmpeg')
+    ffmpeg.input(audio_path).output(wav_path, format='wav', ffmpeg_executable=ffmpeg_path).run()
+    print(wav_path)
+    return wav_path
 
 
 # Define endpoint for chatbotAud

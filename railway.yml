@@ -1,6 +1,6 @@
 nix:
   setup: |
-    nix-env -iA nixpkgs.python38 nixpkgs.gcc nixpkgs.ffmpeg
+    python38, gcc, nixpkgs.ffmpeg
     python -m venv /opt/venv
     . /opt/venv/bin/activate
     pip install -r requirements.txt
