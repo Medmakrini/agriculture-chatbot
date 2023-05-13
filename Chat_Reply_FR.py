@@ -1,10 +1,7 @@
 import openai
 import speech_recognition as sr
 import numpy as np
-import os
-import base64
 from os import path
-import tempfile
 
 openai.api_key = "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"
 
@@ -48,23 +45,14 @@ def demander_expert_agriculture_Fr(q):
 
 #FR version Audio
 
-def reconnaitre_audio_Fr(audio_base64, langue='fr-FR'):
-    r = sr.Recognizer()
-    # Décoder les données audio en base64
-    donnees_audio = base64.b64decode(audio_base64)
-    
-    # Enregistrer les données audio sous forme de fichier WAV temporaire
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        f.write(donnees_audio)
-        fichier_audio = f.name
-    
-    # Effectuer une reconnaissance vocale sur le fichier audio
-    with sr.AudioFile(fichier_audio) as source:
-        audio = r.record(source)
-        try:
-            texte = r.recognize_google(audio, language=langue)
-        except sr.UnknownValueError:
-            texte = ''
-    os.unlink(fichier_audio) # Supprimer le fichier WAV temporaire
-    
-    return texte
+def reconnaitre_audio_Fr(wav_path):
+        r = sr.Recognizer()
+        with sr.WavFile(wav_path) as source:  # use "test.wav" as the audio source
+            audio = r.record(source)  # extract audio data from the file
+            try:
+                text = r.recognize_google(audio, language='fr-FR')  # generate a list of possible transcription#
+            except sr.UnknownValueError:
+                return "Pardon je n'ai pas bien compris, réessaye"
+            except r.RequestError:
+                return "Pardon je n'ai pas bien compris, réessaye"
+            return text

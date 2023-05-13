@@ -1,11 +1,6 @@
 import openai
 import speech_recognition as sr
 import numpy as np
-import os
-import base64
-from os import path
-import tempfile
-import pydub
 from os import path
 openai.api_key = "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"
 
@@ -50,29 +45,9 @@ def ask_agriculture_expert_En(q):
 
 #print(ask_agriculture_expert_En('gi'))
 #EN version Audio
- 
-# def recognize_audio_En(base64_audio, language='en-US'):
-#     # Decode base64 audio data
-#     r = sr.Recognizer()
-#     audio_data = base64.b64decode(base64_audio)
-
-#     # Convert audio data to WAV format
-#     audio = pydub.AudioSegment.from_raw(audio_data)
-#     audio.export("audio.wav", format="wav")
-
-#     # Perform speech recognition on the audio file
-#     with sr.AudioFile("audio.wav") as source:
-#         audio = r.record(source)
-#         try:
-#             text = r.recognize_google(audio, language=language)
-#         except sr.UnknownValueError:
-#             text = ''
-#     os.unlink("audio.wav") # Delete the temporary WAV file
-
-#     return text
 
 
-def recognize_audio_En( wav_path):
+def recognize_audio_En(wav_path):
       
         r = sr.Recognizer()
         with sr.WavFile(wav_path) as source:  # use "test.wav" as the audio source

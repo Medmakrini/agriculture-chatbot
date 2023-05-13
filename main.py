@@ -76,7 +76,7 @@ def decode_base64_string(encoded_string):
     # Convert the 3GP file to WAV using FFmpeg
     cmd = ['ffmpeg', '-i', audio_path, '-f', 'wav', '-acodec', 'pcm_s16le', '-ar', '22050', '-ac', '1', wav_path]
     subprocess.run(cmd, check=True)  # Run the FFmpeg command
-    print(wav_path)
+    print(" wav_path --------------> ",wav_path)
     return wav_path
 
 
@@ -90,15 +90,20 @@ def chatbotAudio():
     if(lang=='en'):
         response = recognize_audio_En(audio_base64)
         print("text recooo===>",response)
-        #response = ask_agriculture_expert_En(text)
+        os.remove(path.join(path.dirname(path.realpath(__file__)), 'last.3gp'))
+        os.remove('last.wav')
         return {"response": response}
     if(lang=='fr'):
         response = reconnaitre_audio_Fr(audio_base64)
-        #response = demander_expert_agriculture_Fr(response)
+        print("text recooo===>",response)
+        os.remove(path.join(path.dirname(path.realpath(__file__)), 'last.3gp'))
+        os.remove('last.wav')
         return {"response": response}
     if(lang=='ar'):
         response = reconnaitre_audio_AR(audio_base64)
-        #response = demander_expert_agriculture_AR(response)
+        print("text recooo===>",response)
+        os.remove(path.join(path.dirname(path.realpath(__file__)), 'last.3gp'))
+        os.remove('last.wav')
         return {"response": response}
 
 
