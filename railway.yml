@@ -1,8 +1,15 @@
 nix:
   setup: |
-    nix-env -i python38 gcc ffmpeg
+    nix-env -iA nixpkgs.python38 nixpkgs.gcc nixpkgs.ffmpeg
+    python -m venv /opt/venv
+    . /opt/venv/bin/activate
     pip install -r requirements.txt
-  install: |
-    pip install -r requirements.txt
-  start: |
-    gunicorn main:app --bind 0.0.0.0:$PORT
+
+install: |
+  python -m venv /opt/venv
+  . /opt/venv/bin/activate
+  pip install -r requirements.txt
+
+start: |
+  . /opt/venv/bin/activate
+  gunicorn main:app --bind 0.0.0.0:$PORT

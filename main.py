@@ -63,8 +63,6 @@ def decode_base64_string(encoded_string):
         decode_string = base64.b64decode(encoded_string)
         audio_file.write(decode_string)
         wav_path = path.join(path.dirname(path.realpath(__file__)) ,'last.wav' )
-        #cmd ='ffmpeg -i '+ 'last.3gp' + ' -f wav -acodec pcm_s16le -ar 22050 -ac 1 ' + wav_path
-        #os.system(cmd)
         ffmpeg.input(audio_path).output(wav_path, format='wav').run()
         return wav_path
 
