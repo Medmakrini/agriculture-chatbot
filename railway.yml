@@ -2,7 +2,6 @@ nix:
   setup: |
     nix-env -i python38 gcc ffmpeg
     pip install -r requirements.txt
-    python3 -m nltk.downloader stopwords
   install: |
     pip install -r requirements.txt
   start: |
